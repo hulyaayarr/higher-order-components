@@ -6,17 +6,27 @@ export interface WithCounterComponentProps {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function withCounter(OriginalComponent: any) {
-  function NewComponent() {
+export function withCounter<
+  T extends WithCounterComponentProps = WithCounterComponentProps
+>(OriginalComponent: React.ComponentType<T>) {
+  //Try to create a nice displayName for React Dev Tools.
+  const displayName =
+    OriginalComponent.displayName || OriginalComponent.name || "Component";
+  const NewComponent = (props: Omit<T, keyof WithCounterComponentProps>) => {
     const [count, setCount] = useState(0);
 
     function handleIncrementCount() {
       setCount((oldCount) => oldCount + 1);
     }
     return (
-      <OriginalComponent count={count} increaseCount={handleIncrementCount} />
+      <OriginalComponent
+        {...(props as T)}
+        count={count}
+        increaseCount={handleIncrementCount}
+      />
     );
-  }
+  };
+  NewComponent.displayName = `withCounter(${displayName})`;
   return NewComponent;
 }
 //1

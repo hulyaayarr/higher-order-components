@@ -5,8 +5,8 @@ import { MouseCounter } from "./MouseOverCounter";
 function App() {
   return (
     <>
-      <ClickCounter />
-      <MouseCounter />
+      <ClickCounter title="Click Counter Title" />
+      <MouseCounter imgSrc="https://svsmetal.com/wp-content/uploads/2023/05/placeholder.png" />
     </>
   );
 }
